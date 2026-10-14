@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Prompti AI content creation and analysis studio.">
+    <title>Prompti | Content Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='studio.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="Prompti home"><span class="brand-mark">P</span>prompti</a>
+        <div class="topbar-meta"><span class="status-dot"></span> GROQ AI <span class="meta-divider">/</span> ASSIGNMENT 08</div>
+    </header>
+
+    <main class="studio-shell">
+        <section class="intro">
+            <p class="eyebrow">THE CONTENT WORKSHOP <span>01 — 04</span></p>
+            <h1>Ideas in.<br><em>Something good</em> out.</h1>
+            <p class="intro-note">Create, shape, and inspect your next piece.</p>
+        </section>
+
+        <nav class="tool-tabs" role="tablist" aria-label="Studio tools">
+            <button class="tool-tab active" id="tab-create" type="button" role="tab" aria-selected="true" aria-controls="view-create" data-view="create"><span>01</span> Create</button>
+            <button class="tool-tab" id="tab-podcast" type="button" role="tab" aria-selected="false" aria-controls="view-podcast" data-view="podcast"><span>02</span> Podcast</button>
+            <button class="tool-tab" id="tab-analyze" type="button" role="tab" aria-selected="false" aria-controls="view-analyze" data-view="analyze"><span>03</span> Analyze</button>
+            <button class="tool-tab" id="tab-compare" type="button" role="tab" aria-selected="false" aria-controls="view-compare" data-view="compare"><span>04</span> Compare</button>
+        </nav>
+
+        <section class="tool-view active" id="view-create" role="tabpanel" aria-labelledby="tab-create">
+            <div class="workbench">
+                <form class="control-panel" id="contentForm">
+                    <div class="panel-heading"><span class="step-index">01</span><h2>Make something</h2></div>
+                    <label for="topic">Your topic</label>
+                    <textarea id="topic" name="topic" rows="3" maxlength="500" placeholder="A tiny bookstore at the end of the world" required></textarea>
+                    <div class="field-row">
+                        <div class="field-group">
+                            <label for="contentType">Format</label>
+                            <select id="contentType" name="content_type">
+                                <option value="story">Short story</option>
+                                <option value="poem">Poem</option>
+                                <option value="social">Social post</option>
+                            </select>
+                        </div>
+                        <div class="field-group">
+                            <label for="tone">Tone</label>
+                            <select id="tone" name="tone">
+                                <option>Thoughtful</option><option>Playful</option><option>Bold</option><option>Warm</option><option>Informative</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label for="audience">Made for</label>
+                    <input id="audience" name="audience" type="text" maxlength="120" value="Curious readers">
+                    <details class="advanced-settings">
+                        <summary>Generation settings <span>+</span></summary>
+                        <div class="range-setting"><label for="temperature">Temperature <output id="temperatureValue">0.7</output></label><input id="temperature" type="range" min="0" max="2" step="0.1" value="0.7"></div>
+                        <div class="range-setting"><label for="topP">Top-P <output id="topPValue">1.00</output></label><input id="topP" type="range" min="0" max="1" step="0.05" value="1"></div>
+                    </details>
+                    <button class="primary-button" type="submit"><span>Generate content</span><span aria-hidden="true">↗</span></button>
+                    <p class="prompt-note">Structured prompt: role · context · constraints · format</p>
+                </form>
+                <section class="result-panel" aria-live="polite" aria-labelledby="createResultTitle">
+                    <div class="result-topline"><h2 id="createResultTitle">The draft</h2><span class="result-mark">OUTPUT / 01</span></div>
+                    <div class="result-body empty-state" id="createResult">Your generated piece will appear here.</div>
+                    <div class="result-footer"><span class="result-status" id="createStatus">READY WHEN YOU ARE</span><button class="copy-button" type="button" data-copy="createResult" aria-label="Copy generated content" title="Copy generated content">Copy</button></div>
+                </section>
+            </div>
+        </section>
+
+        <section class="tool-view" id="view-podcast" role="tabpanel" aria-labelledby="tab-podcast" hidden>
+            <div class="workbench">
+                <form class="control-panel" id="podcastForm">
+                    <div class="panel-heading"><span class="step-index">02</span><h2>Shape an episode</h2></div>
+                    <label for="podcastTopic">Episode topic</label>
+                    <textarea id="podcastTopic" rows="4" maxlength="500" placeholder="Why cities need more wild spaces" required></textarea>
+                    <label for="podcastAudience">Target audience</label>
+                    <input id="podcastAudience" type="text" maxlength="120" value="People curious about the topic">
+                    <button class="primary-button" type="submit"><span>Plan the episode</span><span aria-hidden="true">↗</span></button>
+                </form>
+                <section class="result-panel" aria-live="polite" aria-labelledby="podcastResultTitle">
+                    <div class="result-topline"><h2 id="podcastResultTitle">Episode blueprint</h2><span class="result-mark">OUTPUT / 02</span></div>
+                    <pre class="result-body empty-state" id="podcastResult">Your episode plan will appear here.</pre>
+                    <div class="result-footer"><span class="result-status" id="podcastStatus">READY WHEN YOU ARE</span><button class="copy-button" type="button" data-copy="podcastResult" aria-label="Copy podcast plan" title="Copy podcast plan">Copy</button></div>
+                </section>
+            </div>
+        </section>
+
+        <section class="tool-view" id="view-analyze" role="tabpanel" aria-labelledby="tab-analyze" hidden>
+            <div class="workbench">
+                <form class="control-panel" id="analysisForm">
+                    <div class="panel-heading"><span class="step-index">03</span><h2>Read between lines</h2></div>
+                    <label for="analysisText">Text to analyze</label>
+                    <textarea id="analysisText" class="analysis-input" maxlength="8000" placeholder="Paste a paragraph, review, or draft here..." required></textarea>
+                    <p class="character-count"><span id="characterCount">0</span> / 8,000 characters</p>
+                    <button class="primary-button" type="submit"><span>Analyze text</span><span aria-hidden="true">↗</span></button>
+                </form>
+                <section class="result-panel analysis-result" aria-live="polite" aria-labelledby="analysisResultTitle">
+                    <div class="result-topline"><h2 id="analysisResultTitle">Text signals</h2><span class="result-mark">OUTPUT / 03</span></div>
+                    <div class="analysis-content empty-state" id="analysisResult"><p>Your sentiment and key phrases will appear here.</p></div>
+                    <div class="result-footer"><span class="result-status" id="analysisStatus">READY WHEN YOU ARE</span></div>
+                </section>
+            </div>
+        </section>
+
+        <section class="tool-view" id="view-compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
+            <div class="compare-controls">
+                <div class="panel-heading"><span class="step-index">04</span><h2>Same idea. Different settings.</h2></div>
+                <p class="compare-intro">Uses your Create topic, format, tone, and audience. Only the selected parameter changes.</p>
+                <div class="compare-settings">
+                    <div class="field-group"><label for="compareParameter">Parameter</label><select id="compareParameter"><option value="temperature">Temperature</option><option value="top_p">Top-P</option></select></div>
+                    <div class="field-group"><label for="valueA">Version A</label><input id="valueA" type="number" min="0" max="2" step="0.1" value="0.3"></div>
+                    <div class="field-group"><label for="valueB">Version B</label><input id="valueB" type="number" min="0" max="2" step="0.1" value="1.2"></div>
+                    <button class="primary-button compare-button" id="compareButton" type="button"><span>Run comparison</span><span aria-hidden="true">↗</span></button>
+                </div>
+            </div>
+            <div class="comparison-results" aria-live="polite">
+                <article class="comparison-output"><div class="result-topline"><h2 id="labelA">Version A · 0.3</h2><span class="result-mark">OUTPUT / A</span></div><pre class="result-body empty-state" id="compareResultA">Your first variation will appear here.</pre><button class="copy-button compare-copy" type="button" data-copy="compareResultA" aria-label="Copy version A">Copy</button></article>
+                <article class="comparison-output"><div class="result-topline"><h2 id="labelB">Version B · 1.2</h2><span class="result-mark">OUTPUT / B</span></div><pre class="result-body empty-state" id="compareResultB">Your second variation will appear here.</pre><button class="copy-button compare-copy" type="button" data-copy="compareResultB" aria-label="Copy version B">Copy</button></article>
+            </div>
+            <p class="result-status compare-status" id="compareStatus">READY WHEN YOU ARE</p>
+        </section>
+
+        <footer class="studio-footer"><span>PROMPTI CONTENT STUDIO</span><span>GENERATED WITH GROQ</span></footer>
+    </main>
+    <script src="{{ url_for('static', filename='studio.js') }}"></script>
+</body>
+</html>
